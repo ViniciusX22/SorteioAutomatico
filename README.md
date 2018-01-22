@@ -1,2 +1,2 @@
 # Sorteio Automatico
-Um site que sorteia itens automáticamente
+Um site que sorteia itens automaticamente
