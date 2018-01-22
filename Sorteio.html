@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sorteio</title>
+	<link rel="icon" type="image/png" href="icone.png">
+	<style type="text/css">
+		#itens {
+			margin-top: 10px;
+		}
+
+		#titulo {
+			font-size: 2em;
+		}
+
+		.ver {
+			font-family: Verdana;
+		}
+
+		#label {
+			font-size: 1.5em;
+		}
+	</style>
+</head>
+<body>
+	<center>
+		<p id="titulo" class="ver">Sorteio automático</p>
+	</center>
+	<center>
+		<div id="form">
+			<label for="itens" id="label" class="ver">
+				Itens
+			</label>
+			<br><br>
+			<label for="eli" class="ver">
+				Eliminar itens sorteados:
+			</label>
+			<select id="eli">
+				<option value="true">Sim</option>
+				<option value="false" selected>Não</option>
+			</select>
+			<div id="itens">
+				<button id="add" onclick="adicionar(event, this.parentNode)">
+					Adicionar item
+				</button>
+				<input type="button" name="sortear" value="Sortear" onclick="sortear()"><br>
+				<input type="text" name="0" ondblclick="remove()" onfocusout="gravar(event)" class="item"><br>
+			</div>
+		</div>
+	</center>
+	<script type="text/javascript">
+		var itens = [];
+		itens[0] = "";
+		var i = 0;
+
+		function gravar(evt){
+			itens[parseInt(evt.target.name)] = evt.target.value;
+		}
+
+		function adicionar(evt, form){
+			i++;
+			var input = document.createElement("input");
+			var br = document.createElement("br");
+			itens[i] = "";
+			input.type = "text";
+			input.name = i;
+			input.className = "item";
+			input.addEventListener("focusout", gravar);
+			form.appendChild(input);
+			form.appendChild(br);
+		}
+
+		function remove(numSort){
+			var inputs = document.getElementsByClassName("item");
+			var pai = document.querySelector("#itens");
+			var br = document.getElementsByTagName("br");
+			var ind = numSort + 4;
+			itens[numSort] = null;
+			for(var a = 0; a < (itens.length - numSort); a++){
+				itens[numSort + a] = (itens[numSort + a + 1] != undefined)?itens[numSort + a + 1]:itens[numSort + a];
+			}
+			itens.length--;
+			i--;
+			pai.removeChild(inputs[numSort]);
+			pai.removeChild(br[ind]);
+		}
+
+		function getRandomInt(min, max) {
+		  return Math.floor(Math.random() * (max - min)) + min;
+		}
+
+		function sortear() {
+			if (itens.length == 0) {
+				alert("Sem itens na lista!");
+				return 1;
+			}
+			var numSort = getRandomInt(0, itens.length);
+			alert("Item sorteado: " + itens[numSort]);
+
+			var cond = document.getElementById("eli").value;
+
+			if(cond == "true"){
+				remove(numSort);
+			}
+		}
+	</script>
+</body>
+</html>
+
+
+
+
+
+
